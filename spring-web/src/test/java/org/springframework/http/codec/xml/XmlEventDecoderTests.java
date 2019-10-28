@@ -18,6 +18,7 @@ package org.springframework.http.codec.xml;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+
 import javax.xml.stream.events.XMLEvent;
 
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import org.springframework.core.io.buffer.AbstractLeakCheckingTestCase;
+import org.springframework.core.io.buffer.AbstractLeakCheckingTests;
 import org.springframework.core.io.buffer.DataBuffer;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Arjen Poutsma
  */
-public class XmlEventDecoderTests extends AbstractLeakCheckingTestCase {
+public class XmlEventDecoderTests extends AbstractLeakCheckingTests {
 
 	private static final String XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
 			"<pojo>" +

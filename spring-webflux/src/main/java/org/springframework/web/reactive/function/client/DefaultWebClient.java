@@ -289,7 +289,7 @@ class DefaultWebClient implements WebClient {
 
 		@Override
 		public RequestHeadersSpec<?> bodyValue(Object body) {
-			this.inserter = BodyInserters.fromObject(body);
+			this.inserter = BodyInserters.fromValue(body);
 			return this;
 		}
 
@@ -560,6 +560,14 @@ class DefaultWebClient implements WebClient {
 			return this.responseMono.flatMap(response ->
 					WebClientUtils.toEntityList(response,
 							handleBodyFlux(response, response.bodyToFlux(elementTypeRef))));
+		}
+
+		@Override
+		public Mono<ResponseEntity<Void>> toBodilessEntity() {
+			return this.responseMono.flatMap(response ->
+					WebClientUtils.toEntity(response, handleBodyMono(response, Mono.<Void>empty()))
+							.doOnNext(entity -> response.releaseBody()) // body is drained in other cases
+			);
 		}
 
 

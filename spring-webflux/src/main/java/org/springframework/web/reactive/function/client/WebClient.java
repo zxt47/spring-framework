@@ -517,8 +517,8 @@ public interface WebClient {
 		RequestBodySpec contentType(MediaType contentType);
 
 		/**
-		 * Shortcut for {@link #body(BodyInserter)} with an
-		 * {@linkplain BodyInserters#fromObject Object inserter}.
+		 * Shortcut for {@link #body(BodyInserter)} with a
+		 * {@linkplain BodyInserters#fromValue value inserter}.
 		 * For example:
 		 * <p><pre class="code">
 		 * Person person = ... ;
@@ -608,8 +608,8 @@ public interface WebClient {
 		RequestHeadersSpec<?> body(BodyInserter<?, ? super ClientHttpRequest> inserter);
 
 		/**
-		 * Shortcut for {@link #body(BodyInserter)} with an
-		 * {@linkplain BodyInserters#fromObject Object inserter}.
+		 * Shortcut for {@link #body(BodyInserter)} with a
+		 * {@linkplain BodyInserters#fromValue value inserter}.
 		 * As of 5.2 this method delegates to {@link #bodyValue(Object)}.
 		 * @deprecated as of Spring Framework 5.2 in favor of {@link #bodyValue(Object)}
 		 */
@@ -751,6 +751,18 @@ public interface WebClient {
 		 * @since 5.2
 		 */
 		<T> Mono<ResponseEntity<List<T>>> toEntityList(ParameterizedTypeReference<T> elementTypeRef);
+
+		/**
+		 * Return the response as a delayed {@code ResponseEntity} containing status and headers,
+		 * but no body.  By default, if the response has status code 4xx or 5xx, the {@code Mono}
+		 * will contain a {@link WebClientException}. This can be overridden with
+		 * {@link #onStatus(Predicate, Function)}.
+		 * Calling this method will {@linkplain ClientResponse#releaseBody() release} the body of
+		 * the response.
+		 * @return {@code Mono} with the bodiless {@code ResponseEntity}
+		 * @since 5.2
+		 */
+		Mono<ResponseEntity<Void>> toBodilessEntity();
 	}
 
 
